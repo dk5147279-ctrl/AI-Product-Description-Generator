@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   /* Premium Dark Theme Color System (Tailored Purples & Blues) */
   --bg-main: #0a0b10;
