@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import '../App.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -11,57 +10,27 @@ export default function Login() {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '80vh', 
-      background: 'var(--bg-main)',
-      fontFamily: 'var(--sans)',
-      padding: '2rem',
-      position: 'relative',
-      overflow: 'hidden',
-      boxSizing: 'border-box'
-    }}>
+    <div className="relative min-h-[80vh] flex justify-center items-center py-12 px-6 bg-slate-950 overflow-hidden">
       {/* Background Glow */}
-      <div className="glow-spot-secondary" style={{ top: '20%', right: '15%' }}></div>
+      <div className="absolute top-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-80 h-80 bg-cyan-600/10 rounded-full blur-[80px] pointer-events-none"></div>
 
-      <div className="glass-card" style={{ 
-        padding: '3.5rem 3rem', 
-        borderRadius: '16px', 
-        width: '100%',
-        maxWidth: '420px',
-        backgroundColor: 'rgba(18, 19, 32, 0.5)',
-        borderColor: 'rgba(255, 255, 255, 0.05)',
-        boxSizing: 'border-box',
-        zIndex: 1
-      }}>
-        <h2 style={{ 
-          textAlign: 'center', 
-          marginBottom: '0.5rem', 
-          color: '#fff',
-          fontSize: '2rem',
-          fontWeight: '800',
-          fontFamily: 'Outfit, sans-serif'
-        }}>
+      <div className="relative z-10 w-full max-w-md p-8 md:p-10 rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-lg shadow-2xl">
+        <h2 className="text-center text-3xl font-extrabold font-heading text-white tracking-tight mb-2">
           Welcome Back
         </h2>
-        <p style={{ 
-          textAlign: 'center', 
-          color: 'var(--text-secondary)', 
-          fontSize: '0.9rem', 
-          marginBottom: '2.5rem' 
-        }}>
+        <p className="text-center text-sm text-gray-400 mb-8">
           Log in to access your GourmetScribe panel.
         </p>
 
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <form onSubmit={handleLogin} className="flex flex-col gap-6">
           {/* Email Address */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label className="form-label">Email Address</label>
+          <div className="flex flex-col gap-2 text-left">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              Email Address
+            </label>
             <input 
               type="email" 
-              className="form-input"
+              className="w-full px-4 py-3 rounded-lg bg-white/2 border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
               placeholder="you@company.com" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -70,16 +39,18 @@ export default function Login() {
           </div>
 
           {/* Password */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <label className="form-label">Password</label>
-              <a href="#forgot" style={{ fontSize: '0.8rem', color: 'var(--primary)', textDecoration: 'none' }}>
+          <div className="flex flex-col gap-2 text-left">
+            <div className="flex justify-between items-center">
+              <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Password
+              </label>
+              <a href="#forgot" className="text-xs text-violet-400 hover:text-violet-300 transition-colors">
                 Forgot Password?
               </a>
             </div>
             <input 
               type="password" 
-              className="form-input"
+              className="w-full px-4 py-3 rounded-lg bg-white/2 border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
               placeholder="••••••••" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -90,28 +61,15 @@ export default function Login() {
           {/* Sign In Button */}
           <button 
             type="submit" 
-            className="btn-primary"
-            style={{ 
-              padding: '0.9rem', 
-              borderRadius: '8px', 
-              fontSize: '1rem', 
-              marginTop: '0.5rem',
-              border: 'none',
-              cursor: 'pointer'
-            }}
+            className="w-full py-3.5 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold shadow-lg shadow-violet-600/20 hover:from-violet-500 hover:to-indigo-500 active:translate-y-0 hover:-translate-y-0.5 transition-all duration-200"
           >
             Sign In
           </button>
         </form>
 
-        <div style={{ 
-          textAlign: 'center', 
-          marginTop: '2rem', 
-          fontSize: '0.85rem', 
-          color: 'var(--text-secondary)' 
-        }}>
+        <div className="text-center mt-8 text-xs text-gray-500">
           Don't have an account?{' '}
-          <a href="#signup" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: '500' }}>
+          <a href="#signup" className="text-violet-400 hover:text-violet-300 font-semibold transition-colors">
             Sign Up
           </a>
         </div>

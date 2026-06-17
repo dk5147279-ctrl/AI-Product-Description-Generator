@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import '../App.css';
 
 export default function Dashboard() {
   const [productName, setProductName] = useState('');
@@ -140,8 +139,8 @@ export default function Dashboard() {
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
     
     // Unordered lists
-    html = html.replace(/^\* (.*$)/gim, '<li style="margin-left:1.2rem;list-style-type:disc;margin-bottom:0.4rem;color:var(--text-primary);">$1</li>');
-    html = html.replace(/^- (.*$)/gim, '<li style="margin-left:1.2rem;list-style-type:disc;margin-bottom:0.4rem;color:var(--text-primary);">$1</li>');
+    html = html.replace(/^\* (.*$)/gim, '<li style="margin-left:1.2rem;list-style-type:disc;margin-bottom:0.4rem;color:#f3f4f6;">$1</li>');
+    html = html.replace(/^- (.*$)/gim, '<li style="margin-left:1.2rem;list-style-type:disc;margin-bottom:0.4rem;color:#f3f4f6;">$1</li>');
     
     // Paragraph paragraphs
     html = html.split('\n\n').map(p => {
@@ -149,7 +148,7 @@ export default function Dashboard() {
       if (trimmed.startsWith('<li') || trimmed.startsWith('<h')) {
         return trimmed;
       }
-      return `<p style="margin-bottom:1rem;line-height:1.6;color:var(--text-primary);">${trimmed}</p>`;
+      return `<p style="margin-bottom:1rem;line-height:1.6;color:#f3f4f6;">${trimmed}</p>`;
     }).join('\n');
     
     // Custom newline spacing
@@ -179,38 +178,28 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      minHeight: '85vh', 
-      background: 'var(--bg-main)', 
-      fontFamily: 'var(--sans)',
-      boxSizing: 'border-box'
-    }}>
-      {showToast && <div className="toast-notice">{toastMessage}</div>}
+    <div className="flex flex-col md:flex-row min-h-[85vh] bg-slate-950 text-white">
+      {/* Toast Notice */}
+      {showToast && (
+        <div className="fixed bottom-8 right-8 z-50 px-6 py-3 rounded-lg bg-slate-900 border border-cyan-500 text-white font-medium shadow-xl shadow-cyan-500/10 animate-fade-in-up">
+          {toastMessage}
+        </div>
+      )}
 
       {/* Control Sidebar (Form Panel) */}
-      <div style={{ 
-        flex: '0 0 420px', 
-        borderRight: '1px solid rgba(255, 255, 255, 0.05)', 
-        background: 'rgba(15, 17, 28, 0.6)',
-        backdropFilter: 'blur(10px)',
-        padding: '2.5rem 2rem',
-        boxSizing: 'border-box',
-        overflowY: 'auto',
-        maxHeight: '85vh'
-      }}>
-        <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontWeight: '700' }}>Generator Panel</h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '2rem' }}>
+      <div className="w-full md:w-[420px] shrink-0 border-b md:border-b-0 md:border-r border-white/5 bg-slate-900/40 backdrop-blur-md p-8 md:max-h-[85vh] overflow-y-auto">
+        <h2 className="text-xl font-bold font-heading mb-1 text-white">Generator Panel</h2>
+        <p className="text-xs text-gray-400 mb-8">
           Define the parameters for your food processing or consumer product.
         </p>
 
-        <form onSubmit={handleGenerate} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <form onSubmit={handleGenerate} className="flex flex-col gap-5 text-left">
           {/* Product Name */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label className="form-label">Product Name</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Product Name</label>
             <input 
               type="text" 
-              className="form-input"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/2 border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
               placeholder="e.g., Premium Almond Matcha Cookie" 
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
@@ -219,10 +208,10 @@ export default function Dashboard() {
           </div>
 
           {/* Food Category */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label className="form-label">Food Category</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Food Category</label>
             <select 
-              className="form-select"
+              className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-white/5 text-white focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
               value={category} 
               onChange={(e) => setCategory(e.target.value)}
             >
@@ -238,10 +227,10 @@ export default function Dashboard() {
           </div>
 
           {/* Tone of Voice */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label className="form-label">Tone of Voice</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Tone of Voice</label>
             <select 
-              className="form-select"
+              className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-white/5 text-white focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
               value={tone} 
               onChange={(e) => setTone(e.target.value)}
             >
@@ -253,10 +242,10 @@ export default function Dashboard() {
           </div>
 
           {/* Target Audience */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label className="form-label">Target Audience</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Target Audience</label>
             <select 
-              className="form-select"
+              className="w-full px-4 py-2.5 rounded-lg bg-slate-900 border border-white/5 text-white focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
               value={targetAudience} 
               onChange={(e) => setTargetAudience(e.target.value)}
             >
@@ -268,50 +257,42 @@ export default function Dashboard() {
           </div>
 
           {/* Key Ingredients */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label className="form-label">Key Ingredients / Sourcing</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Key Ingredients / Sourcing</label>
             <textarea 
-              className="form-textarea"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/2 border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200 resize-none"
               rows="3"
-              placeholder="e.g., Organic Japanese Matcha, Gluten-free almond flour, Cold-pressed coconut oil" 
+              placeholder="e.g., Organic Japanese Matcha, Gluten-free almond flour..." 
               value={keyIngredients}
               onChange={(e) => setKeyIngredients(e.target.value)}
             />
           </div>
 
           {/* Keywords */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label className="form-label">Keywords (Comma separated)</label>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Keywords (Comma separated)</label>
             <input 
               type="text" 
-              className="form-input"
+              className="w-full px-4 py-2.5 rounded-lg bg-white/2 border border-white/5 text-white placeholder-gray-600 focus:outline-none focus:border-violet-500 focus:ring-4 focus:ring-violet-500/15 transition-all duration-200"
               placeholder="e.g., stone ground, low sugar, vegan cookie" 
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
             />
           </div>
 
-          {/* Dietary Claims & Certifications */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            <label className="form-label">Dietary Claims & Certifications</label>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: '1fr 1fr', 
-              gap: '0.8rem', 
-              background: 'rgba(255,255,255,0.01)',
-              padding: '0.8rem',
-              borderRadius: '8px',
-              border: '1px solid rgba(255,255,255,0.03)'
-            }}>
+          {/* Dietary Claims */}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Dietary Claims & Certifications</label>
+            <div className="grid grid-cols-2 gap-2 bg-white/1 border border-white/5 p-3 rounded-lg">
               {Object.keys(dietaryClaims).map((claim) => (
-                <label key={claim} className="checkbox-container">
+                <label key={claim} className="flex items-center gap-2 cursor-pointer group text-xs text-gray-400 hover:text-white transition-colors select-none">
                   <input 
                     type="checkbox" 
+                    className="accent-violet-500 rounded border-white/10" 
                     checked={dietaryClaims[claim]} 
                     onChange={() => handleCheckboxChange(claim)}
                   />
-                  <span className="checkbox-custom"></span>
-                  <span style={{ fontSize: '0.82rem' }}>{claim}</span>
+                  <span>{claim}</span>
                 </label>
               ))}
             </div>
@@ -321,22 +302,14 @@ export default function Dashboard() {
           <button 
             type="submit" 
             disabled={isLoading}
-            className="btn-primary"
-            style={{ 
-              width: '100%', 
-              padding: '0.9rem', 
-              borderRadius: '8px', 
-              fontSize: '1rem', 
-              marginTop: '0.5rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.5rem'
-            }}
+            className="w-full py-3.5 rounded-lg font-semibold bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-lg shadow-violet-600/20 disabled:opacity-50 transition-all duration-200 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
-                <span className="spinner" style={{ width: '16px', height: '16px', borderTopColor: '#fff', borderWidth: '2px' }}></span>
+                <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
                 <span>Generating Copy...</span>
               </>
             ) : (
@@ -349,79 +322,31 @@ export default function Dashboard() {
       </div>
 
       {/* Main Preview and History Panel */}
-      <div style={{ 
-        flex: 1, 
-        padding: '2.5rem 3rem', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: '2.5rem',
-        overflowY: 'auto',
-        maxHeight: '85vh',
-        boxSizing: 'border-box'
-      }}>
-        {/* API warning alerts */}
+      <div className="flex-1 p-8 md:p-12 flex flex-col gap-8 md:max-h-[85vh] overflow-y-auto">
+        
+        {/* Warning alerts */}
         {warning && (
-          <div style={{
-            background: 'rgba(234, 179, 8, 0.1)',
-            border: '1px solid rgba(234, 179, 8, 0.3)',
-            borderRadius: '8px',
-            padding: '1rem 1.5rem',
-            color: '#fef08a',
-            fontSize: '0.88rem',
-            lineHeight: '1.5',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.8rem'
-          }}>
-            <span style={{ fontSize: '1.25rem' }}>⚠️</span>
+          <div className="flex items-center gap-3 px-6 py-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-300 text-sm leading-relaxed">
+            <span className="text-lg">⚠️</span>
             <span>{warning}</span>
           </div>
         )}
 
         {/* Dynamic Display area */}
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: '350px' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center', 
-            marginBottom: '1rem' 
-          }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Sensory Copy Preview</h3>
+        <div className="flex flex-col flex-1 min-h-[350px]">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-bold font-heading text-white">Sensory Copy Preview</h3>
             {generatedText && !isLoading && (
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <div className="flex gap-2">
                 <button 
                   onClick={handleCopy}
-                  className="glass-card"
-                  style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '6px',
-                    fontSize: '0.82rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem'
-                  }}
+                  className="text-xs font-semibold px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 text-white flex items-center gap-2 transition-all cursor-pointer"
                 >
                   📋 Copy Text
                 </button>
                 <button 
                   onClick={handleDownload}
-                  className="glass-card"
-                  style={{
-                    background: 'rgba(255,255,255,0.03)',
-                    color: '#fff',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '6px',
-                    fontSize: '0.82rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem'
-                  }}
+                  className="text-xs font-semibold px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 text-white flex items-center gap-2 transition-all cursor-pointer"
                 >
                   💾 Download .MD
                 </button>
@@ -430,56 +355,28 @@ export default function Dashboard() {
           </div>
 
           {/* Output text panel */}
-          <div className="glass-card" style={{ 
-            flex: '1', 
-            padding: '2.5rem', 
-            backgroundColor: 'rgba(18, 19, 32, 0.4)',
-            borderColor: 'rgba(255, 255, 255, 0.04)',
-            overflowY: 'auto',
-            borderRadius: '12px',
-            position: 'relative'
-          }}>
-            {isLoading ? (
-              <div className="pulsing-loader" style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '1.2rem',
-                backgroundColor: 'rgba(10, 11, 16, 0.7)',
-                borderRadius: '12px',
-                zIndex: 10
-              }}>
-                <span className="spinner"></span>
-                <p style={{ fontWeight: '500', color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+          <div className="flex-1 p-8 rounded-xl border border-white/5 bg-slate-900/40 relative overflow-y-auto min-h-[300px]">
+            {isLoading && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-slate-950/80 rounded-xl backdrop-blur-sm animate-pulse">
+                <svg className="animate-spin h-10 w-10 text-violet-500" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p className="font-semibold text-gray-400 text-sm">
                   GourmetScribe is writing sensorial food descriptions...
                 </p>
               </div>
-            ) : null}
+            )}
 
             {generatedText ? (
               <div 
-                style={{ textAlign: 'left', fontSize: '1rem', lineHeight: '1.7' }}
+                className="text-left text-sm text-gray-200 leading-relaxed font-sans"
                 dangerouslySetInnerHTML={{ __html: formatMarkdown(generatedText) }}
               />
             ) : (
-              <div style={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--text-muted)',
-                textAlign: 'center',
-                padding: '2rem 0'
-              }}>
-                <span style={{ fontSize: '3rem', marginBottom: '1rem' }}>✍️</span>
-                <p style={{ maxWidth: '400px', margin: 0, fontStyle: 'italic', fontSize: '0.95rem' }}>
+              <div className="h-full min-h-[220px] flex flex-col items-center justify-center text-gray-500 text-center py-8">
+                <span className="text-4xl mb-4">✍️</span>
+                <p className="max-w-md text-sm italic leading-relaxed">
                   Fill in your product specifications on the left panel and click generate. Your premium AI product copy will render here in real-time.
                 </p>
               </div>
@@ -489,70 +386,28 @@ export default function Dashboard() {
 
         {/* History Section */}
         {history.length > 0 && (
-          <div style={{ 
-            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-            paddingTop: '2rem',
-            textAlign: 'left'
-          }}>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: '700', marginBottom: '1.2rem' }}>Recent Generations</h3>
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-              gap: '1.2rem'
-            }}>
+          <div className="border-t border-white/5 pt-8 text-left">
+            <h3 className="text-base font-bold font-heading mb-4 text-white">Recent Generations</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {history.map((item) => (
                 <div 
                   key={item._id} 
                   onClick={() => loadPastGeneration(item)}
-                  className="glass-card"
-                  style={{
-                    padding: '1.2rem 1.5rem',
-                    background: 'rgba(255, 255, 255, 0.02)',
-                    borderColor: 'rgba(255, 255, 255, 0.04)',
-                    borderRadius: '10px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.6rem',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.2)';
-                    e.currentTarget.style.background = 'rgba(139, 92, 246, 0.03)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.04)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)';
-                  }}
+                  className="p-5 rounded-xl bg-white/2 border border-white/5 hover:border-violet-500/20 hover:bg-violet-500/2 hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col gap-3"
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ 
-                      fontSize: '0.75rem', 
-                      background: 'rgba(255,255,255,0.05)', 
-                      padding: '0.2rem 0.5rem', 
-                      borderRadius: '4px',
-                      color: 'var(--text-secondary)'
-                    }}>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="px-2 py-0.5 rounded bg-white/5 text-gray-400 font-semibold">
                       {item.category}
                     </span>
-                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                    <span className="text-[10px] text-gray-600">
                       {new Date(item.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}
                     </span>
                   </div>
-                  <h4 style={{ fontSize: '1rem', fontWeight: '600', color: '#fff', margin: 0 }}>
+                  <h4 className="text-sm font-semibold text-white truncate margin-0">
                     {item.productName}
                   </h4>
-                  <p style={{ 
-                    color: 'var(--text-muted)', 
-                    fontSize: '0.82rem',
-                    margin: 0,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap'
-                  }}>
-                    {item.generatedText.replace(/[#*`-]/g, '').substring(0, 80)}...
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    {item.generatedText.replace(/[#*`\-]/g, '')}
                   </p>
                 </div>
               ))}

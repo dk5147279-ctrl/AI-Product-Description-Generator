@@ -1,90 +1,39 @@
+import Card from './Card';
 
 function Features() {
   const cardData = [
     {
-      icon: "⚡",
-      title: "Lightning Fast",
+      title: "⚡ Lightning Fast",
       description: "Generate mouth-watering descriptions, serving ideas, and logistic copy in under 5 seconds."
     },
     {
-      icon: "🥗",
-      title: "Tailored for Food Processing",
+      title: "🥗 Tailored for Food Processing",
       description: "Outputs structured info for dietary claims, allergens, packaging, and commercial wholesale specs."
     },
     {
-      icon: "📈",
-      title: "SEO & Retail Optimized",
+      title: "📈 SEO & Retail Optimized",
       description: "Automatically injects search keywords to boost rankings on Google, Amazon, and retail platforms."
     }
   ];
 
   return (
-    <div style={{
-      padding: '6rem 2rem',
-      position: 'relative',
-      borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-      background: 'rgba(10, 11, 16, 0.5)'
-    }}>
-      <h2 style={{
-        textAlign: 'center',
-        marginBottom: '4rem',
-        fontSize: '2.4rem',
-        fontWeight: '800',
-        letterSpacing: '-0.03em'
-      }}>
-        Why Use <span style={{ color: 'var(--primary)' }}>GourmetScribe?</span>
+    <div className="py-24 px-6 md:px-16 bg-slate-950/50 border-t border-white/5 relative">
+      <h2 className="text-center text-3xl md:text-4xl font-extrabold font-heading text-white tracking-tight mb-16">
+        Why Use <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">GourmetScribe?</span>
       </h2>
       
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '2rem',
-        flexWrap: 'wrap',
-        maxWidth: '1200px',
-        margin: '0 auto'
-      }}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {cardData.map((card, index) => (
-          <div 
-            key={index} 
-            className="glass-card"
-            style={{
-              flex: '1',
-              minWidth: '280px',
-              maxWidth: '350px',
-              padding: '2.5rem 2rem',
-              textAlign: 'left',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem'
-            }}
-          >
-            <div style={{
-              width: '50px',
-              height: '50px',
-              borderRadius: '12px',
-              background: 'rgba(139, 92, 246, 0.1)',
-              border: '1px solid rgba(139, 92, 246, 0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.5rem',
-            }}>
-              {card.icon}
-            </div>
-            
-            <h3 style={{ 
-              fontSize: '1.25rem', 
-              fontWeight: '700',
-              fontFamily: 'Outfit, sans-serif'
-            }}>{card.title}</h3>
-            
-            <p style={{ 
-              color: 'var(--text-secondary)', 
-              lineHeight: '1.6', 
-              fontSize: '0.95rem',
-              margin: 0 
-            }}>{card.description}</p>
-          </div>
+          <Card 
+            key={index}
+            title={card.title}
+            description={card.description}
+            action={
+              <span className="text-xs font-semibold text-violet-400 group-hover:text-violet-300 transition-colors">
+                Learn more &rarr;
+              </span>
+            }
+          />
         ))}
       </div>
     </div>
