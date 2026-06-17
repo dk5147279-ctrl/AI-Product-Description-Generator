@@ -2,57 +2,51 @@ import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
-    <footer style={{
-      backgroundColor: '#0a0b10',
-      color: 'var(--text-secondary)',
-      padding: '3rem 2rem 2rem 2rem',
-      textAlign: 'center',
-      fontSize: '0.9rem',
-      borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-      marginTop: 'auto',
-      zIndex: 1,
-      position: 'relative'
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '1.5rem'
-      }}>
-        <div style={{
-          fontSize: '1.1rem',
-          fontWeight: '700',
-          fontFamily: 'Outfit, sans-serif',
-          color: '#fff',
-          letterSpacing: '-0.02em'
-        }}>
-          🥗 GourmetScribe AI
-        </div>
+    <footer className="w-full bg-slate-950/80 backdrop-blur-md border-t border-white/5 py-12 px-6 md:px-16 mt-auto relative z-10">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         
-        <p style={{ margin: 0, color: 'var(--text-muted)', maxWidth: '500px' }}>
-          Crafting sensory, compliant, and high-converting product listing copy for modern food processors and manufacturers.
-        </p>
-
-        <div style={{
-          display: 'flex',
-          gap: '1.5rem',
-          fontSize: '0.85rem'
-        }}>
-          <Link to="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Home</Link>
-          <Link to="/about" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>About</Link>
-          <Link to="/dashboard" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>Dashboard</Link>
+        {/* Brand & Copyright */}
+        <div className="flex flex-col items-center md:items-start text-center md:text-left gap-2">
+          <Link to="/" className="text-lg font-bold font-heading bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+            🥗 GourmetScribe AI
+          </Link>
+          <p className="text-xs text-gray-500 max-w-sm">
+            Sensory AI copywriting for modern food processing & consumer packaged goods.
+          </p>
+          <div className="text-[11px] text-gray-600 mt-2">
+            &copy; {new Date().getFullYear()} GourmetScribe AI. All rights reserved.
+          </div>
         </div>
 
-        <div style={{ 
-          fontSize: '0.8rem', 
-          color: 'var(--text-muted)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.03)',
-          paddingTop: '1.5rem',
-          width: '100%'
-        }}>
-          &copy; {new Date().getFullYear()} GourmetScribe AI. All rights reserved.
+        {/* Links */}
+        <div className="flex gap-8 text-xs text-gray-400">
+          <Link to="/" className="hover:text-white transition-colors">Home</Link>
+          <Link to="/about" className="hover:text-white transition-colors">About</Link>
+          <Link to="/dashboard" className="hover:text-white transition-colors">Dashboard</Link>
+        </div>
+
+        {/* Social Icons (Placeholders) */}
+        <div className="flex gap-4">
+          {/* Twitter */}
+          <a href="#twitter" aria-label="Twitter" className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/5 bg-white/2 hover:bg-white/5 text-gray-400 hover:text-white transition-all">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+            </svg>
+          </a>
+          
+          {/* LinkedIn */}
+          <a href="#linkedin" aria-label="LinkedIn" className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/5 bg-white/2 hover:bg-white/5 text-gray-400 hover:text-white transition-all">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+
+          {/* GitHub */}
+          <a href="#github" aria-label="GitHub" className="flex items-center justify-center w-8 h-8 rounded-lg border border-white/5 bg-white/2 hover:bg-white/5 text-gray-400 hover:text-white transition-all">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path fillRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.137 20.162 22 16.418 22 12c0-5.523-4.477-10-10-10z" clipRule="evenodd" />
+            </svg>
+          </a>
         </div>
       </div>
     </footer>

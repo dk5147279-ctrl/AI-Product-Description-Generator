@@ -1,68 +1,58 @@
 import { useNavigate } from 'react-router-dom';
+import heroImage from '../assets/hero.png'; // Using the existing asset
 
 function Hero() {
   const navigate = useNavigate();
 
   return (
-    <div style={{
-      position: 'relative',
-      padding: '8rem 2rem 6rem 2rem',
-      textAlign: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden'
-    }}>
-      {/* Background neon glows */}
-      <div className="glow-spot" style={{ top: '-10%', left: '30%' }}></div>
-      <div className="glow-spot-secondary" style={{ bottom: '10%', right: '20%' }}></div>
+    <div className="relative min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-16 md:py-24 overflow-hidden bg-slate-950">
+      {/* Background glow effects */}
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-violet-600/10 rounded-full blur-[80px] pointer-events-none"></div>
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-80 h-80 bg-cyan-600/10 rounded-full blur-[70px] pointer-events-none"></div>
 
-      <div style={{ maxWidth: '800px', zIndex: 1 }}>
-        {/* Subtitle Badge */}
-        <span className="badge badge-primary" style={{ marginBottom: '1.5rem', fontSize: '0.85rem', padding: '0.5rem 1rem' }}>
-          🚀 Introducing GourmetScribe AI
-        </span>
+      <div className="max-w-4xl z-10 flex flex-col md:flex-row items-center gap-12 px-6">
+        {/* Hero Left Content */}
+        <div className="flex-1 text-left flex flex-col items-start">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-violet-500/10 text-violet-400 border border-violet-500/20 mb-6 uppercase tracking-wider">
+            🚀 GourmetScribe AI v2.0
+          </span>
+          
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black font-heading leading-tight tracking-tight text-white mb-6">
+            Appetizing Product Copy <br />
+            <span className="bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+              In Seconds
+            </span>
+          </h1>
 
-        {/* Heading */}
-        <h1 className="gradient-text" style={{
-          fontSize: '3.8rem',
-          lineHeight: '1.15',
-          marginBottom: '1.5rem',
-          fontWeight: '800',
-          letterSpacing: '-0.04em'
-        }}>
-          Generate AI Product Copy for Food Businesses
-        </h1>
+          <p className="text-lg text-gray-400 leading-relaxed max-w-lg mb-8">
+            Transform food ingredients, certifications, and wholesale logistic specs into compelling, sensorially descriptive, and search-optimized product copy.
+          </p>
 
-        {/* Paragraph */}
-        <p style={{
-          fontSize: '1.25rem',
-          color: 'var(--text-secondary)',
-          maxWidth: '650px',
-          margin: '0 auto 2.5rem auto',
-          lineHeight: '1.6'
-        }}>
-          Transform raw food product features, dietary specs, and ingredients into high-converting, mouth-watering copy optimized for retail, wholesale, and search rankings.
-        </p>
+          <button 
+            onClick={() => navigate('/dashboard')}
+            className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-xl shadow-violet-600/25 hover:shadow-cyan-600/20 hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <span>Start Generating Free</span>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-4.5 w-4.5 group-hover:translate-x-1 transition-transform" 
+              viewBox="0 0 20 20" 
+              fill="currentColor"
+            >
+              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
 
-        {/* Action Button */}
-        <button 
-          onClick={() => navigate('/dashboard')}
-          className="btn-primary" 
-          style={{
-            padding: '1rem 2.5rem',
-            fontSize: '1.05rem',
-            borderRadius: '9999px',
-            border: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem'
-          }}
-        >
-          <span>Get Started for Free</span>
-          <span style={{ fontSize: '1.15rem' }}>⚡</span>
-        </button>
+        {/* Hero Right Image */}
+        <div className="flex-1 max-w-md w-full relative">
+          <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/20 to-cyan-500/20 rounded-2xl filter blur-xl opacity-70"></div>
+          <img 
+            src={heroImage} 
+            alt="AI food product description generator showcase" 
+            className="relative z-10 w-full h-auto object-cover rounded-2xl border border-white/10 shadow-2xl"
+          />
+        </div>
       </div>
     </div>
   );

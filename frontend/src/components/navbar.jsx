@@ -3,83 +3,54 @@ import { Link, useLocation } from 'react-router-dom';
 function Navbar() {
   const location = useLocation();
 
-  const getLinkStyle = (path) => {
+  const getLinkClass = (path) => {
     const isActive = location.pathname === path;
-    return {
-      color: isActive ? '#fff' : '#9ca3af',
-      textDecoration: 'none',
-      cursor: 'pointer',
-      fontSize: '0.95rem',
-      fontWeight: isActive ? '600' : '400',
-      padding: '0.5rem 1rem',
-      borderRadius: '8px',
-      background: isActive ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
-      border: '1px solid',
-      borderColor: isActive ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
-      transition: 'all 0.2s ease'
-    };
+    return `text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200 ${
+      isActive 
+        ? 'text-white bg-white/5 border border-white/10' 
+        : 'text-gray-400 hover:text-white hover:bg-white/5'
+    }`;
   };
 
   return (
-    <nav style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '1.2rem 4rem',
-      background: 'rgba(10, 11, 16, 0.8)',
-      backdropFilter: 'blur(12px)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-      boxSizing: 'border-box'
-    }}>
-      {/* Clickable Logo */}
-      <Link to="/" style={{
-        textDecoration: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.5rem',
-        fontSize: '1.4rem',
-        fontWeight: '800',
-        fontFamily: 'Outfit, sans-serif',
-        background: 'linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        letterSpacing: '-0.03em'
-      }}>
+    <nav className="sticky top-0 z-50 flex justify-between items-center px-6 md:px-16 py-4 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
+      {/* App Logo */}
+      <Link 
+        to="/" 
+        className="flex items-center gap-2 text-xl font-extrabold font-heading bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent tracking-tight hover:opacity-90 transition-opacity"
+      >
         <span>🥗 GourmetScribe AI</span>
       </Link>
 
       {/* Navigation Links */}
-      <ul style={{ 
-        display: 'flex', 
-        listStyle: 'none', 
-        gap: '0.75rem', 
-        margin: 0, 
-        padding: 0,
-        alignItems: 'center'
-      }}>
+      <ul className="flex items-center gap-3">
         <li>
-          <Link to="/" style={getLinkStyle('/')}>Home</Link>
+          <Link to="/" className={getLinkClass('/')}>Home</Link>
         </li>
         <li>
-          <Link to="/about" style={getLinkStyle('/about')}>About</Link>
+          <Link to="/about" className={getLinkClass('/about')}>About</Link>
         </li>
         <li>
-          <Link to="/dashboard" style={getLinkStyle('/dashboard')}>Dashboard</Link>
+          <Link to="/dashboard" className={getLinkClass('/dashboard')}>Dashboard</Link>
         </li>
         <li>
-          <Link to="/login" style={{
-            ...getLinkStyle('/login'),
-            background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-            color: '#fff',
-            fontWeight: '600',
-            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.25)',
-            border: 'none'
-          }}>Login</Link>
+          <Link 
+            to="/login" 
+            className="text-sm font-semibold px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-600/20 hover:from-violet-500 hover:to-indigo-500 transition-all duration-200"
+          >
+            Login
+          </Link>
         </li>
       </ul>
+
+      {/* Profile/Menu Icon on the Right */}
+      <div className="hidden md:flex items-center ml-4">
+        <button className="flex items-center justify-center w-8 h-8 rounded-full border border-white/10 hover:border-white/20 bg-white/5 text-gray-300 hover:text-white transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+          </svg>
+        </button>
+      </div>
     </nav>
   );
 }
