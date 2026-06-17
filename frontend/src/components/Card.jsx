@@ -1,5 +1,3 @@
-import React from 'react';
-
 /**
  * Reusable Card component designed with Tailwind CSS
  * @param {object} props

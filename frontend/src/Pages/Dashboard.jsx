@@ -407,7 +407,7 @@ export default function Dashboard() {
                     {item.productName}
                   </h4>
                   <p className="text-xs text-gray-500 line-clamp-2">
-                    {item.generatedText.replace(/[#*`\-]/g, '')}
+                    {item.generatedText.replace(/[#*`-]/g, '')}
                   </p>
                 </div>
               ))}
