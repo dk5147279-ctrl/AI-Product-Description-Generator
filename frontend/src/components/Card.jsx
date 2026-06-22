@@ -8,10 +8,10 @@
  */
 function Card({ title, description, image, action }) {
   return (
-    <div className="flex flex-col rounded-xl overflow-hidden border border-white/5 bg-slate-900/60 backdrop-blur-md shadow-lg shadow-black/30 hover:border-white/10 hover:shadow-violet-600/5 transition-all duration-300">
+    <div className="flex flex-col rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 bg-white dark:bg-slate-900/60 backdrop-blur-md shadow-lg shadow-slate-200/50 dark:shadow-black/30 hover:border-slate-350 dark:hover:border-white/10 hover:shadow-violet-600/5 dark:hover:shadow-violet-600/5 transition-all duration-300">
       {/* Optional Card Image */}
       {image && (
-        <div className="relative h-48 w-full overflow-hidden border-b border-white/5 bg-slate-950">
+        <div className="relative h-48 w-full overflow-hidden border-b border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-950">
           <img 
             src={image} 
             alt={title} 
@@ -22,11 +22,11 @@ function Card({ title, description, image, action }) {
 
       {/* Card Content */}
       <div className="flex-1 flex flex-col p-6 text-left">
-        <h3 className="text-lg font-bold text-white mb-2 font-heading tracking-tight">
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 font-heading tracking-tight">
           {title}
         </h3>
         
-        <p className="flex-1 text-sm text-gray-400 leading-relaxed mb-6">
+        <p className="flex-1 text-sm text-slate-600 dark:text-gray-400 leading-relaxed mb-6">
           {description}
         </p>
 

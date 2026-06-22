@@ -1,7 +1,40 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  /* Premium Dark Theme Color System (Tailored Purples & Blues) */
+  /* Premium Light Theme Color System (Default) */
+  --bg-main: #f8fafc;
+  --bg-surface: rgba(255, 255, 255, 0.7);
+  --bg-surface-glow: rgba(241, 245, 249, 0.85);
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  --primary: #7c3aed;         /* Violet */
+  --primary-glow: rgba(124, 58, 237, 0.15);
+  --secondary: #0891b2;       /* Cyan */
+  --secondary-glow: rgba(8, 145, 178, 0.15);
+  
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-color-hover: rgba(0, 0, 0, 0.16);
+  --border-glow: rgba(124, 58, 237, 0.12);
+  
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --heading: 'Outfit', system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font-family: var(--sans);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark {
+  /* Premium Dark Theme Color System Overrides */
   --bg-main: #0a0b10;
   --bg-surface: rgba(18, 19, 32, 0.7);
   --bg-surface-glow: rgba(30, 32, 54, 0.85);
@@ -18,17 +51,6 @@
   --border-color: rgba(255, 255, 255, 0.08);
   --border-color-hover: rgba(255, 255, 255, 0.16);
   --border-glow: rgba(139, 92, 246, 0.25);
-  
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --heading: 'Outfit', system-ui, -apple-system, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font-family: var(--sans);
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -71,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: -0.02em;
   margin: 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* Global Transitions */
