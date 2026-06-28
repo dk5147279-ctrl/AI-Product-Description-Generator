@@ -1,0 +1,423 @@
+{
+  "info": {
+    "_postman_id": "8b23f5b0-df2b-47eb-ba68-7359560dc484",
+    "name": "W4_APICollection_REVIEW",
+    "description": "Postman/Thunder Client Collection for W4 AI Descriptive Generator REST API Verification",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /api/descriptions",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/descriptions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "descriptions"
+          ]
+        },
+        "description": "Retrieve the full list of all saved descriptions in memory."
+      },
+      "response": [
+        {
+          "name": "Successful Retrieval (200 OK)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/descriptions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "descriptions"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"id\": \"1\",\n    \"title\": \"Gourmet Harvest Granola\",\n    \"promptInput\": \"artisan, gluten-free, sustainable\",\n    \"tags\": [\"artisan\", \"gluten-free\", \"sustainable\"],\n    \"selectedTone\": \"bold\",\n    \"generatedContent\": \"Introducing Gourmet Harvest Granola: a sensorial experience crafted for modern taste makers. With artisan, gluten-free, sustainable ingredients, every bite delivers a bold culinary story that celebrates texture, aroma, and unforgettable flavor. Perfect for product labels, category pages, and premium retail listings, this copy captures the craftsmanship behind your brand and invites shoppers to savor the difference.\",\n    \"createdAt\": \"2026-06-27T12:00:00.000Z\"\n  },\n  {\n    \"id\": \"2\",\n    \"title\": \"Sunshine Berry Crisp\",\n    \"promptInput\": \"vegan, hand-crafted, organic\",\n    \"tags\": [\"vegan\", \"hand-crafted\", \"organic\"],\n    \"selectedTone\": \"warm\",\n    \"generatedContent\": \"Savor the bright, sun-kissed sweetness of our Sunshine Berry Crisp. Meticulously hand-crafted with certified organic and fully vegan ingredients, this recipe offers a warm, comforting texture that reminds you of home. Every slice contains succulent summer berries nestled under a crunchy golden oat crumble, creating an authentic, wholesome snack for the entire family.\",\n    \"createdAt\": \"2026-06-27T15:30:00.000Z\"\n  },\n  {\n    \"id\": \"3\",\n    \"title\": \"Midnight Espresso Beans\",\n    \"promptInput\": \"dark roast, bold, energy boost\",\n    \"tags\": [\"dark roast\", \"bold\", \"energy boost\"],\n    \"selectedTone\": \"refined\",\n    \"generatedContent\": \"Awaken your senses with Midnight Espresso Beans—a refined, single-origin dark roast designed for true coffee connoisseurs. Carefully selected and slow-roasted to absolute perfection, these beans release an intense, full-bodied aroma with deep cocoa undertones. A powerful energy boost wrapped in a sophisticated taste profile, it is the ultimate companion for your early mornings and demanding days.\",\n    \"createdAt\": \"2026-06-27T18:45:00.000Z\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "GET /api/descriptions/1",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/descriptions/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "descriptions",
+            "1"
+          ]
+        },
+        "description": "Find an individual description by its unique ID."
+      },
+      "response": [
+        {
+          "name": "Successfully Retrieved Item (200 OK)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/descriptions/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "descriptions",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": \"1\",\n  \"title\": \"Gourmet Harvest Granola\",\n  \"promptInput\": \"artisan, gluten-free, sustainable\",\n  \"tags\": [\"artisan\", \"gluten-free\", \"sustainable\"],\n  \"selectedTone\": \"bold\",\n  \"generatedContent\": \"Introducing Gourmet Harvest Granola: a sensorial experience crafted for modern taste makers. With artisan, gluten-free, sustainable ingredients, every bite delivers a bold culinary story that celebrates texture, aroma, and unforgettable flavor.\",\n  \"createdAt\": \"2026-06-27T12:00:00.000Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "GET /api/descriptions/search?q=Sunshine",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/descriptions/search?q=Sunshine",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "descriptions",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "Sunshine"
+            }
+          ]
+        },
+        "description": "Perform query-based search against description title, promptInput, or tags."
+      },
+      "response": [
+        {
+          "name": "Successful Search (200 OK)",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/descriptions/search?q=Sunshine",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "descriptions",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Sunshine"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"id\": \"2\",\n    \"title\": \"Sunshine Berry Crisp\",\n    \"promptInput\": \"vegan, hand-crafted, organic\",\n    \"tags\": [\"vegan\", \"hand-crafted\", \"organic\"],\n    \"selectedTone\": \"warm\",\n    \"generatedContent\": \"Savor the bright, sun-kissed sweetness of our Sunshine Berry Crisp. Meticulously hand-crafted with certified organic and fully vegan ingredients, this recipe offers a warm, comforting texture that reminds you of home.\",\n    \"createdAt\": \"2026-06-27T15:30:00.000Z\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "POST /api/descriptions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"New Organic Test Product\",\n  \"promptInput\": \"organic, fresh, local\",\n  \"tags\": [\"organic\", \"fresh\", \"local\"],\n  \"selectedTone\": \"warm\",\n  \"generatedContent\": \"Here is the generated product copy for the test product.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/descriptions",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "descriptions"
+          ]
+        },
+        "description": "Create a new product description item in memory. Requires 'title' and 'generatedContent'."
+      },
+      "response": [
+        {
+          "name": "Successfully Created (201 Created)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"New Organic Test Product\",\n  \"promptInput\": \"organic, fresh, local\",\n  \"tags\": [\"organic\", \"fresh\", \"local\"],\n  \"selectedTone\": \"warm\",\n  \"generatedContent\": \"Here is the generated product copy for the test product.\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/descriptions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "descriptions"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": \"desc-d61f4009\",\n  \"title\": \"New Organic Test Product\",\n  \"promptInput\": \"organic, fresh, local\",\n  \"tags\": [\"organic\", \"fresh\", \"local\"],\n  \"selectedTone\": \"warm\",\n  \"generatedContent\": \"Here is the generated product copy for the test product.\",\n  \"createdAt\": \"2026-06-27T23:32:00.000Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "PUT /api/descriptions/1",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Gourmet Harvest Granola - Updated\",\n  \"selectedTone\": \"refined\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/descriptions/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "descriptions",
+            "1"
+          ]
+        },
+        "description": "Update specific fields of an existing description by merging the request payload."
+      },
+      "response": [
+        {
+          "name": "Successfully Updated (200 OK)",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Gourmet Harvest Granola - Updated\",\n  \"selectedTone\": \"refined\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/descriptions/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "descriptions",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": \"1\",\n  \"title\": \"Gourmet Harvest Granola - Updated\",\n  \"promptInput\": \"artisan, gluten-free, sustainable\",\n  \"tags\": [\"artisan\", \"gluten-free\", \"sustainable\"],\n  \"selectedTone\": \"refined\",\n  \"generatedContent\": \"Introducing Gourmet Harvest Granola: a sensorial experience crafted for modern taste makers...\",\n  \"createdAt\": \"2026-06-27T12:00:00.000Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "DELETE /api/descriptions/1",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/descriptions/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "descriptions",
+            "1"
+          ]
+        },
+        "description": "Delete a description item from database by ID."
+      },
+      "response": [
+        {
+          "name": "Successfully Deleted (204 No Content)",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/descriptions/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "descriptions",
+                "1"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "plain",
+          "header": [],
+          "cookie": [],
+          "body": null
+        }
+      ]
+    }
+  ]
+}

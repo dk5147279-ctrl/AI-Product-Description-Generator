@@ -1,201 +1,173 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+// Configure CORS to allow requests from the frontend development server
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
+
+// Enable JSON parsing middleware
 app.use(express.json());
 
-// MongoDB connection setup with graceful fallback
-let isDbConnected = false;
-let ProductDescription;
-
-const connectDB = async () => {
-  const mongoUri = process.env.MONGODB_URI;
-  if (!mongoUri) {
-    console.log('⚠️ No MONGODB_URI found in environmental variables. Falling back to in-memory history storage.');
-    return;
+// In-Memory Data Model seeded with 3 mock objects representing generated text history
+let descriptions = [
+  {
+    id: "1",
+    title: "Gourmet Harvest Granola",
+    promptInput: "artisan, gluten-free, sustainable",
+    tags: ["artisan", "gluten-free", "sustainable"],
+    selectedTone: "bold",
+    generatedContent: "Introducing Gourmet Harvest Granola: a sensorial experience crafted for modern taste makers. With artisan, gluten-free, sustainable ingredients, every bite delivers a bold culinary story that celebrates texture, aroma, and unforgettable flavor. Perfect for product labels, category pages, and premium retail listings, this copy captures the craftsmanship behind your brand and invites shoppers to savor the difference.",
+    createdAt: "2026-06-27T12:00:00.000Z"
+  },
+  {
+    id: "2",
+    title: "Sunshine Berry Crisp",
+    promptInput: "vegan, hand-crafted, organic",
+    tags: ["vegan", "hand-crafted", "organic"],
+    selectedTone: "warm",
+    generatedContent: "Savor the bright, sun-kissed sweetness of our Sunshine Berry Crisp. Meticulously hand-crafted with certified organic and fully vegan ingredients, this recipe offers a warm, comforting texture that reminds you of home. Every slice contains succulent summer berries nestled under a crunchy golden oat crumble, creating an authentic, wholesome snack for the entire family.",
+    createdAt: "2026-06-27T15:30:00.000Z"
+  },
+  {
+    id: "3",
+    title: "Midnight Espresso Beans",
+    promptInput: "dark roast, bold, energy boost",
+    tags: ["dark roast", "bold", "energy boost"],
+    selectedTone: "refined",
+    generatedContent: "Awaken your senses with Midnight Espresso Beans—a refined, single-origin dark roast designed for true coffee connoisseurs. Carefully selected and slow-roasted to absolute perfection, these beans release an intense, full-bodied aroma with deep cocoa undertones. A powerful energy boost wrapped in a sophisticated taste profile, it is the ultimate companion for your early mornings and demanding days.",
+    createdAt: "2026-06-27T18:45:00.000Z"
   }
+];
+
+// Core REST Endpoints
+
+// 1. GET /api/descriptions/search
+app.get('/api/descriptions/search', (req, res, next) => {
   try {
-    await mongoose.connect(mongoUri);
-    isDbConnected = true;
-    console.log('✅ Connected to MongoDB successfully.');
+    const query = (req.query.q || '').trim().toLowerCase();
+    if (!query) {
+      return res.status(200).json(descriptions);
+    }
+    const filtered = descriptions.filter(item => {
+      const matchTitle = item.title && item.title.toLowerCase().includes(query);
+      const matchPrompt = item.promptInput && item.promptInput.toLowerCase().includes(query);
+      const matchTags = item.tags && item.tags.some(tag => tag.toLowerCase().includes(query));
+      return matchTitle || matchPrompt || matchTags;
+    });
+    res.status(200).json(filtered);
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error.message);
-    console.log('⚠️ Falling back to in-memory history storage.');
-  }
-};
-
-connectDB().then(() => {
-  // Define Schema if DB connected
-  const descriptionSchema = new mongoose.Schema({
-    productName: { type: String, required: true },
-    category: String,
-    tone: String,
-    keywords: String,
-    dietaryClaims: [String],
-    keyIngredients: String,
-    targetAudience: String,
-    generatedText: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
-  });
-  
-  if (isDbConnected) {
-    ProductDescription = mongoose.model('ProductDescription', descriptionSchema);
+    next(error);
   }
 });
 
-// In-memory history fallback array
-const inMemoryHistory = [];
-
-// API: Generate Product Description using Google Gemini API
-app.post('/api/generate', async (req, res) => {
-  const { productName, category, tone, keywords, dietaryClaims, keyIngredients, targetAudience } = req.body;
-
-  if (!productName) {
-    return res.status(400).json({ error: 'Product name is required.' });
+// 2. GET /api/descriptions
+app.get('/api/descriptions', (req, res, next) => {
+  try {
+    res.status(200).json(descriptions);
+  } catch (error) {
+    next(error);
   }
+});
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  const isApiKeyConfigured = apiKey && apiKey !== 'your_gemini_api_key_here';
+// 3. GET /api/descriptions/:id
+app.get('/api/descriptions/:id', (req, res, next) => {
+  try {
+    const item = descriptions.find(d => d.id === req.params.id);
+    if (!item) {
+      const error = new Error(`Description with ID ${req.params.id} not found`);
+      error.status = 404;
+      return next(error);
+    }
+    res.status(200).json(item);
+  } catch (error) {
+    next(error);
+  }
+});
 
-  let generatedText = '';
-  let warningMessage = null;
-
-  if (!isApiKeyConfigured) {
-    warningMessage = '⚠️ Gemini API Key not configured. Showing mock response. Please add your GEMINI_API_KEY to the backend/.env file.';
+// 4. POST /api/descriptions
+app.post('/api/descriptions', (req, res, next) => {
+  try {
+    const { title, promptInput, tags, selectedTone, generatedContent } = req.body;
     
-    // Generate high quality mock copy tailored for food processing
-    const cleanCategory = category || 'Food Product';
-    const cleanTone = tone || 'Professional';
-    const claimsStr = (dietaryClaims && dietaryClaims.length > 0) ? dietaryClaims.join(', ') : 'Standard Quality';
-    const ingredsStr = keyIngredients || 'premium wholesome ingredients';
-    const keywordText = keywords ? `targeting keywords like "${keywords}"` : '';
+    // Validation: Ensure title and generatedContent exist
+    if (!title || !generatedContent) {
+      const error = new Error('Validation failed: title and generatedContent are required');
+      error.status = 400;
+      return next(error);
+    }
 
-    generatedText = `### 🌟 The Ultimate ${productName} Experience
+    const newItem = {
+      id: `desc-${crypto.randomUUID().slice(0, 8)}`,
+      title,
+      promptInput: promptInput || '',
+      tags: Array.isArray(tags) ? tags : [],
+      selectedTone: selectedTone || 'default',
+      generatedContent,
+      createdAt: new Date().toISOString()
+    };
+
+    descriptions.push(newItem);
+    res.status(201).json(newItem);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 5. PUT /api/descriptions/:id
+app.put('/api/descriptions/:id', (req, res, next) => {
+  try {
+    const index = descriptions.findIndex(d => d.id === req.params.id);
+    if (index === -1) {
+      const error = new Error(`Description with ID ${req.params.id} not found`);
+      error.status = 404;
+      return next(error);
+    }
+
+    const existingItem = descriptions[index];
     
-Discover the exquisite taste and premium quality of our new **${productName}**! Handcrafted specifically for the demanding standards of the modern food market, this product delivers exceptional flavor and texture in every single batch.
+    // Merge updated fields from request body, ensuring id and createdAt are immutable
+    const updatedItem = {
+      ...existingItem,
+      ...req.body,
+      id: existingItem.id,
+      createdAt: existingItem.createdAt
+    };
 
-Made from ${ingredsStr}, it is the perfect fit for ${category || 'your product line'}. It is meticulously prepared in our state-of-the-art facilities, ensuring full safety, freshness, and quality control.
-
----
-
-### 🔥 Key Highlights
-* **Dietary/Certifications:** ${claimsStr}
-* **Premium Ingredients:** Sourced responsibly to ensure the highest purity and taste profile.
-* **Consistency:** Grade-A processing standards ideal for retail distribution and high-demand commercial kitchens.
-* **Clean Label:** No artificial colors or harmful chemical preservatives.
-
----
-
-### 🥗 Culinary & Serving Ideas
-Excellent when used as a primary component or served alongside matching snacks and drinks. Keep refrigerated at 4°C for peak flavor retention and extended shelf stability.
-
----
-
-### 📦 Wholesale & Packaging Information
-* **Lead Time:** 5-7 business days for high-volume wholesale processing.
-* **Bulk Packing:** Available in industrial food-grade bulk bags or custom retail canisters.
-* **Storage:** Best kept in cool, dry conditions or cold-storage facilities.
-
-*(Generated in a ${cleanTone.toLowerCase()} voice ${keywordText})*`;
-  } else {
-    try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
-      const claimsList = (dietaryClaims && dietaryClaims.length > 0) ? dietaryClaims.join(', ') : 'None specified';
-      const prompt = `
-You are an expert copywriting assistant specializing in food processing and manufacturing businesses.
-Generate a captivating, professional, and SEO-optimized product listing description for a food product based on these specifications:
-
-Product Name: ${productName}
-Food Category: ${category || 'General Food/Beverage'}
-Dietary Claims / Certifications: ${claimsList}
-Key Ingredients / Core Features: ${keyIngredients || 'Premium wholesome ingredients'}
-Tone of Voice: ${tone || 'Professional'}
-Target Customer: ${targetAudience || 'Retail consumers and wholesale buyers'}
-Keywords to target (integrate them naturally): ${keywords || 'None'}
-
-Please format the description in clean, beautiful Markdown using the following structure:
-1. A catchy, benefit-driven heading (e.g. starting with "###").
-2. A compelling introductory paragraph highlighting taste, texture, quality, and consumer appeal.
-3. A bulleted "Key Highlights" section (for certifications, dietary benefits, allergen safety, or processing standards).
-4. A "Serving & Usage Suggestions" section.
-5. A brief "Wholesale & Logistics Info" section (ideal package styles, shelf life, or shipping information).
-
-Ensure the writing is enticing, appetizing, and fits a food processing brand.
-`;
-
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      generatedText = response.text();
-    } catch (error) {
-      console.error('Gemini API Error:', error);
-      return res.status(500).json({ error: 'Failed to generate description from Gemini API. ' + error.message });
-    }
+    descriptions[index] = updatedItem;
+    res.status(200).json(updatedItem);
+  } catch (error) {
+    next(error);
   }
+});
 
-  // Create record for history
-  const historyRecord = {
-    productName,
-    category,
-    tone,
-    keywords,
-    dietaryClaims: dietaryClaims || [],
-    keyIngredients,
-    targetAudience,
-    generatedText,
-    createdAt: new Date()
-  };
-
-  // Save history
-  if (isDbConnected && ProductDescription) {
-    try {
-      const savedDoc = await ProductDescription.create(historyRecord);
-      historyRecord._id = savedDoc._id;
-    } catch (dbError) {
-      console.error('Failed to save to database history:', dbError);
-    }
-  } else {
-    // Save to memory with 50 items cap
-    historyRecord._id = 'mem_' + Date.now();
-    inMemoryHistory.unshift(historyRecord);
-    if (inMemoryHistory.length > 50) {
-      inMemoryHistory.pop();
-    }
+// 6. DELETE /api/descriptions/:id
+app.delete('/api/descriptions/:id', (req, res, next) => {
+  try {
+    descriptions = descriptions.filter(d => d.id !== req.params.id);
+    res.status(204).end();
+  } catch (error) {
+    next(error);
   }
+});
 
-  return res.json({
-    generatedText,
-    warning: warningMessage,
-    data: historyRecord
+// Centralized Error Handling Middleware
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  res.status(status).json({
+    error: {
+      message: err.message || 'Internal Server Error',
+      status: status
+    }
   });
 });
 
-// API: Get Generation History
-app.get('/api/history', async (req, res) => {
-  if (isDbConnected && ProductDescription) {
-    try {
-      const history = await ProductDescription.find().sort({ createdAt: -1 }).limit(20);
-      return res.json(history);
-    } catch (error) {
-      console.error('Database history retrieval error:', error);
-      return res.status(500).json({ error: 'Failed to fetch history from database.' });
-    }
-  } else {
-    // Return in-memory history
-    return res.json(inMemoryHistory);
-  }
-});
-
-// App listener
+// Port Binding & Server Activation
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`👉 API Endpoint: http://localhost:${PORT}/api/generate`);
 });
